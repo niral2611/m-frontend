@@ -23,7 +23,7 @@ const GoogleLoginButton = () => {
                 },
             }}
         >
-            <img src="/assets/google-icon.svg" alt="Google" width={20} height={20} />
+            <img src="/assets/google-icon.svg" alt="Google" width="20px" height="20px" />
             <span style={{ color: '#000', fontSize: '10px', margin: '5px'}}>Continue with Google</span>
         </Button>
     )

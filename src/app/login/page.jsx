@@ -4,8 +4,14 @@ import GoogleLoginButton from '../components/google';
 
 const Login = () => {
   return (
-    <Box sx={{ display: 'flex', width: '100vw', height: '100vh', overflow: 'hidden'}}>
-      <Box sx={{ width: '70%', height:'100%', position: 'relative'}}>
+    <Box sx={{ 
+      display: 'flex', 
+      width: '100vw', 
+      height: '100vh', 
+      overflow: 'hidden', 
+      userSelect: 'none'
+    }} >
+      <Box sx={{ width: '70%', position: 'relative'}}>
         <Box 
           component="img"
           src='/assets/login_bg.jpg'
@@ -16,8 +22,8 @@ const Login = () => {
           position: 'absolute',
           top: '50%',
           left: '30%',
-          transform: 'translate(-50%, -50%)',
-          textAlign: 'center',
+          transform: 'translate(-10%, -50%)',
+          textAlign: 'left',
           width: '100%',
           marginLeft: 'auto'
         }} >
@@ -58,16 +64,57 @@ const Login = () => {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          padding: 4,
+          padding: 2,
         }}
       >
-        <Typography variant='h4' sx={{ color: 'black', fontWeight: 'bold', mb:2, fontSize: '40px', marginTop: '-300px', fontFamily: '"Times New Roman", Times, serif'}}>
+        <Typography 
+          variant='h4' 
+          sx={{ 
+            color: 'black', 
+            fontWeight: 'bold', 
+            mb:2, 
+            fontSize: {
+              xs: '20px',
+              sm: '30px',
+              md: '40px',
+              lg: '50px',
+            }, 
+            marginTop: '-300px', 
+            fontFamily: '"Times New Roman", Times, serif'
+          }}>
           MATSYA
         </Typography>
-        <Typography variant='h4' sx={{ color: '#003153', fontWeight: 'bold', mb:2, marginTop:'100px', fontSize: '25px'}}>
+        <Typography 
+          variant='h4' 
+          sx={{ 
+            color: '#003153', 
+            fontWeight: 'bold', 
+            mb:2, 
+            marginTop:'100px', 
+            fontSize: {
+              xs: '14px',
+              sm: '17px',
+              md: '25px',
+              lg: '35px',
+            },
+          }}>
           Welcome Aboard
         </Typography>
-        <Typography variant='h6' sx={{ color: '#003153', mb:2, marginTop:'-20px', fontSize: '10px', whiteSpace: 'pre-line', textAlign: 'center'}}>
+        <Typography 
+          variant='h6' 
+          sx={{ 
+            color: '#003153', 
+            mb:2, 
+            marginTop:'-20px', 
+            fontSize: {
+              xs: '12px',
+              sm: '13px',
+              md: '14px',
+              lg: '16px',
+            }, 
+            whiteSpace: 'pre-line', 
+            textAlign: 'center'
+            }}>
           {'You are just few steps away from persistent\nmonitoring of the ocean'}
         </Typography>
         <GoogleLoginButton />
