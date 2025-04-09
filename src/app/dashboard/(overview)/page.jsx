@@ -9,9 +9,25 @@ const Map = dynamic(() => import('./Map'), { ssr: false });
 
 const Dashboard = () => {
     return (
-        <Box>
-            <Header />
-            <Box sx={{ height: 'calc(100vh - 64px)', width: '100%' }}>
+        <Box sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100vh',
+            overflow: 'hidden'
+        }}>
+            <Box sx={{
+                flexShrink: 0,
+                zIndex: 10,
+                position: 'relative',
+                boxShadow: 1
+            }} >
+                <Header />
+            </Box>
+            <Box sx={{ 
+                flexGrow: 1, 
+                width: '100%',
+                overflow: 'hidden'
+            }}>
                 <Map />
             </Box>
         </Box>

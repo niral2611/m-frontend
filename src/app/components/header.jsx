@@ -1,18 +1,31 @@
 'use client'
 
 import React from "react";
+import { useSession } from "next-auth/react";
 import { Box, Avatar, Typography, IconButton } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDownRounded';
+import { Poppins } from "next/font/google";
+
+const poppins = Poppins({
+    subsets: ['latin'],
+    weight: ['400', '600', '800'],
+    variable: '--font-poppins',
+})
 
 const Header = () => {
+    const { data: session } = useSession();
+
+    const userName = session?.user?.name;
+    const userImage = session?.user?.image;
+
+
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                padding: '5px 20px',
-                backgroundColor: '#f5f5f5',
+        <Box sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: '5px 20px',
+            backgroundColor: '#f5f5f5',
             }}>
             <Box sx={{
                 display: 'flex',
@@ -43,7 +56,7 @@ const Header = () => {
             >
                 <Avatar 
                     alt='User'
-                    src=""
+                    src={userImage}
                     sx={{
                         width: 40,
                         height: 40, 
@@ -51,11 +64,11 @@ const Header = () => {
                     }} 
                 />
                 <Box ml={2}>
-                    <Typography variant='subtitle1' fontWeight="bold">
-                        Niral Ajmera
+                    <Typography variant='subtitle1' fontWeight="600" className={poppins.className}>
+                        {userName}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        1000 credits
+                        2108 credits
                     </Typography>
                 </Box>
                 <IconButton size='small'>

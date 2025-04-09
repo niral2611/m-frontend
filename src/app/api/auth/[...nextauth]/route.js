@@ -1,6 +1,14 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
+
+const emails = [
+    "ajmeraniral@gmail.com",
+    "najmera64725@gmail.com",
+    "niral.aict21@sot.pdpu.ac.in"
+]
+
+
 const handler = NextAuth({
   providers: [
     GoogleProvider({
@@ -12,7 +20,19 @@ const handler = NextAuth({
   session: {
     strategy: "jwt",
   },
+  jwt: {
+    signingKey: process.env.JWT_SIGNING_PRIVATE_KEY,
+    verificationOptions: {
+        algorithm: ['ES256']
+    }
+  },
   callbacks: {
+    async signIn({ user }) {
+        if (emails.includes(user.email)){
+            return true
+        } 
+        return false
+    },
     async jwt({ token, account, profile }) {
       if (account && profile) {
         token.email = profile.email;
@@ -28,6 +48,9 @@ const handler = NextAuth({
       return session;
     },
   },
+  pages: {
+    error: '/auth/login',
+  }
 });
 
 export { handler as GET, handler as POST };

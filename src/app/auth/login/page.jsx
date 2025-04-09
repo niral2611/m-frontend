@@ -1,16 +1,30 @@
-import React from 'react';
-import { Box, Typography } from '@mui/material';
-import GoogleLoginButton from '../components/google';
+'use client';
+
+import React, { useEffect, useState } from 'react';
+import { Box, Typography, Snackbar, Alert, Slide } from '@mui/material';
+import { useSearchParams } from 'next/navigation';
+import GoogleLoginButton from '../../components/google';
 
 const Login = () => {
+  const [open, setOpen] = useState(false);
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const error = searchParams.get('error');
+    if (error) {
+      setOpen(true);
+
+      // Clear error from the URL (optional, prevents repeat toasts)
+      const url = new URL(window.location.href);
+      url.searchParams.delete('error');
+      window.history.replaceState({}, '', url.toString());
+    }
+  }, [searchParams]);
+
+  const handleClose = () => setOpen(false);
+
   return (
-    <Box sx={{ 
-      display: 'flex', 
-      width: '100vw', 
-      height: '100vh', 
-      overflow: 'hidden', 
-      userSelect: 'none'
-    }} >
+    <Box sx={{ display: 'flex', width: '100vw', height: '100vh', overflow: 'hidden', userSelect: 'none' }} >
       <Box sx={{ width: '70%', position: 'relative'}}>
         <Box 
           component="img"
@@ -56,17 +70,17 @@ const Login = () => {
           </Typography>
         </Box>
       </Box>
+
       <Box sx={{
-          width: '30%',
-          height: '100%',
-          backgroundColor: 'white',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: 2,
-        }}
-      >
+        width: '30%',
+        height: '100%',
+        backgroundColor: 'white',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 2,
+      }}>
         <Typography 
           variant='h4' 
           sx={{ 
@@ -114,11 +128,24 @@ const Login = () => {
             }, 
             whiteSpace: 'pre-line', 
             textAlign: 'center'
-            }}>
+          }}>
           {'You are just few steps away from persistent\nmonitoring of the ocean'}
         </Typography>
+
         <GoogleLoginButton />
       </Box>
+
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={open}
+        autoHideDuration={5000}
+        onClose={handleClose}
+        TransitionComponent={(props) => <Slide {...props} direction="left" />}
+      >
+        <Alert severity="error" variant="filled" onClose={handleClose}>
+          Login failed. Unauthorized access or restricted email.
+        </Alert>
+      </Snackbar>
     </Box>
   )
 }

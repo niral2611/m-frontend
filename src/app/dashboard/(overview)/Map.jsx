@@ -1,25 +1,24 @@
-'use client';
-
-import React from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
-import { Box } from '@mui/material';
+import 'leaflet/dist/leaflet.css';
+
+const position = [36.778259, -119.417931]
 
 const Map = () => {
-    return (
-        <Box sx={{ height: '100%', width: '100%' }}>
-            <MapContainer
-                center={[18.5204, 73.8567]} // You can change this to [20.5937, 78.9629] for central India
-                zoom={5}
-                scrollWheelZoom={true}
-                style={{ height: '100%', width: '100%' }}
-            >
-                <TileLayer
-                    url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-                    attribution='&copy; <a href="https://carto.com/">CARTO</a>'
-                />
-            </MapContainer>
-        </Box>
-    );
+  return (
+    <MapContainer center={position} zoom={6} minZoom={3} maxBounds={[
+        [-85, -180],
+        [85, 180]     
+      ]}
+      maxBoundsViscosity={1.0} style={{ height: '100vh', backgroundColor: 'black' }}>
+        <TileLayer
+            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+            attribution='&copy; <a href="https://carto.com/">CARTO</a>'
+            noWrap='false'
+            maxZoom={20}
+        />
+    </MapContainer>
+  );
 };
+
 
 export default Map;
