@@ -11,7 +11,7 @@ const Map = () => {
       ]}
       maxBoundsViscosity={1.0} style={{ height: '100vh', backgroundColor: 'black' }}>
         <TileLayer
-            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+            url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://carto.com/">CARTO</a>'
             noWrap='false'
             maxZoom={20}
@@ -20,5 +20,6 @@ const Map = () => {
   );
 };
 
-
 export default Map;
+
+

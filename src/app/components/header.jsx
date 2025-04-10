@@ -4,20 +4,12 @@ import React from "react";
 import { useSession } from "next-auth/react";
 import { Box, Avatar, Typography, IconButton } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDownRounded';
-import { Poppins } from "next/font/google";
-
-const poppins = Poppins({
-    subsets: ['latin'],
-    weight: ['400', '600', '800'],
-    variable: '--font-poppins',
-})
 
 const Header = () => {
     const { data: session } = useSession();
 
     const userName = session?.user?.name;
     const userImage = session?.user?.image;
-
 
     return (
         <Box sx={{
@@ -26,7 +18,7 @@ const Header = () => {
             alignItems: 'center',
             padding: '5px 20px',
             backgroundColor: '#f5f5f5',
-            }}>
+        }}>
             <Box sx={{
                 display: 'flex',
                 alignItems: 'center',
@@ -41,19 +33,22 @@ const Header = () => {
                     }}
                 />
                 <Box ml={2}>
-                    <Typography variant='subtitle1' >
+                    <Typography 
+                        variant='subtitle1' 
+                        sx={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 600 }}
+                    >
                         PierSight Space
                     </Typography>
-                    <Typography variant="body2" sx={{ color: "#888"}}>
+                    <Typography 
+                        variant="body2" 
+                        sx={{ color: "#888", fontFamily: 'Montserrat, sans-serif' }}
+                    >
                         Ahmedabad Office
                     </Typography>
                 </Box>
             </Box>
-            <Box sx={{
-                    display: 'flex',
-                    alignItems: 'center'
-                }}
-            >
+
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <Avatar 
                     alt='User'
                     src={userImage}
@@ -64,10 +59,17 @@ const Header = () => {
                     }} 
                 />
                 <Box ml={2}>
-                    <Typography variant='subtitle1' fontWeight="600" className={poppins.className}>
+                    <Typography 
+                        variant='subtitle1' 
+                        sx={{ fontWeight: 600, fontFamily: 'Montserrat, sans-serif' }}
+                    >
                         {userName}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography 
+                        variant="body2" 
+                        color="text.secondary"
+                        sx={{ fontFamily: 'Montserrat, sans-serif' }}
+                    >
                         2108 credits
                     </Typography>
                 </Box>
@@ -76,7 +78,7 @@ const Header = () => {
                 </IconButton>
             </Box>            
         </Box>
-    )
-}
+    );
+};
 
 export default Header;
