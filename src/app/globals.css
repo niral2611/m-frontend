@@ -37,10 +37,12 @@ body {
   padding: 0;
 }
 
-
 .leaflet-control-attribution,
 .leaflet-control-zoom-in,
 .leaflet-control-zoom-out,
 .leaflet-layer {
-  filter: invert(90%) sepia(15%) saturate(150%) hue-rotate(160deg) brightness(80%) contrast(110%);
+  filter: invert(90%) sepia(15%) saturate(0%) hue-rotate(115deg) brightness(150%) contrast(110%);
+}
+.leaflet-control-zoom {
+  left: 30px !important; 
 }

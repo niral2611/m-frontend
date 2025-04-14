@@ -1,14 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
-import Header from './components/header';
-import Sidebar from './components/sidebar';
+import Header from '../../components/header';
+import Sidebar from '../../components/sidebar';
 import dynamic from 'next/dynamic';
 import { Box } from '@mui/material';
 
-const Map = dynamic(() => import('./components/Map'), { ssr: false });
+const Map = dynamic(() => import('../../components/Map'), { ssr: false });
 
-const MatsyaHub = () => {
+const DarkShip = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   return (
@@ -47,10 +47,10 @@ const MatsyaHub = () => {
           backgroundColor: 'black',
         }}
       >
-        <Map />
+        <Map url="http://localhost:3000/api/geojson" />
       </Box>
     </Box>
   );
 };
 
-export default MatsyaHub;
+export default DarkShip;

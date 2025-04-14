@@ -11,7 +11,7 @@ const GoogleLoginButton = () => {
         setLoading(true);
         setTimeout(() => {
             signIn('google', {
-                callbackUrl: '/dashboard'
+                callbackUrl: '/'
             })
         }, 200);
     }

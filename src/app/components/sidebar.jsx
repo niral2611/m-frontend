@@ -3,13 +3,11 @@ import PropTypes from 'prop-types';
 import {
   Box,
   Typography,
-  List,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
+  Button,
   Divider,
   IconButton,
 } from '@mui/material';
+import { useRouter } from 'next/navigation';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import SatelliteAltIcon from '@mui/icons-material/SatelliteAlt';
@@ -17,6 +15,12 @@ import RoomIcon from '@mui/icons-material/Room';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
+  const router = useRouter();
+
+  const handleDarkShipsClick = () => {
+    router.push('/events/dark-ships');
+  };
+
   return (
     <Box
       sx={{
@@ -34,31 +38,30 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     >
       <Box
         sx={{
-            position: 'relative',
-            height: '24px',
-            mb: 2,
+          position: 'relative',
+          height: '24px',
+          mb: 2,
         }}
-        >
+      >
         <IconButton
-            size="medium"
-            onClick={toggleSidebar}
-            sx={{
-                position: 'absolute',
-                right: -30,
-                top: 0,
-                backgroundColor: '#2B2B2B',
-                border: '2px solid #fff',
-                borderRadius: '50%',
-                color: '#fff',
-                '&:hover': {
-                    backgroundColor: '#3a3a3a',
-                },
-            }}
+          size="medium"
+          onClick={toggleSidebar}
+          sx={{
+            position: 'absolute',
+            right: -30,
+            top: 0,
+            backgroundColor: '#2B2B2B',
+            border: '2px solid #fff',
+            borderRadius: '50%',
+            color: '#fff',
+            '&:hover': {
+              backgroundColor: '#3a3a3a',
+            },
+          }}
         >
-            <ChevronLeftIcon fontSize="small" />
+          <ChevronLeftIcon fontSize="small" />
         </IconButton>
       </Box>
-
 
       <Typography
         variant="h5"
@@ -68,6 +71,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           mb: 4,
           letterSpacing: '1px',
           ml: 1,
+          fontSize: '2rem'
         }}
       >
         MATSYA
@@ -81,95 +85,74 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       </Typography>
       <Divider sx={{ backgroundColor: '#555', mb: 2 }} />
 
-      <List>
-        <ListItemButton
-          sx={{
-            borderRadius: '12px',
-            mb: 1,
-            px: 2,
-            '&:hover': { backgroundColor: '#3a3a3a' },
-          }}
-        >
-          <ListItemIcon sx={{ color: '#fff', minWidth: 36 }}>
-            <DashboardIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText
-            primary="Dark Ships"
-            sx={{
-              '& .MuiTypography-root': {
-                fontSize: '0.9rem',
-                fontWeight: 400,
-              },
-            }}
-          />
-        </ListItemButton>
+      <Button
+        variant="contained"
+        startIcon={<DashboardIcon />}
+        onClick={handleDarkShipsClick} 
+        sx={{
+          backgroundColor: '#3a3a3a',
+          color: '#fff',
+          borderRadius: '12px',
+          mb: 1,
+          px: 2,
+          '&:hover': { backgroundColor: '#4a4a4a' },
+          textTransform: 'none',
+          justifyContent: 'flex-start',
+        }}
+      >
+        Dark Ships
+      </Button>
 
-        <ListItemButton
-          sx={{
-            borderRadius: '12px',
-            mb: 1,
-            px: 2,
-            '&:hover': { backgroundColor: '#3a3a3a' },
-          }}
-        >
-          <ListItemIcon sx={{ color: '#fff', minWidth: 36 }}>
-            <BarChartIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText
-            primary="Oil Spill"
-            sx={{
-              '& .MuiTypography-root': {
-                fontSize: '0.9rem',
-                fontWeight: 400,
-              },
-            }}
-          />
-        </ListItemButton>
+      <Button
+        variant="contained"
+        startIcon={<BarChartIcon />}
+        sx={{
+          backgroundColor: '#3a3a3a',
+          color: '#fff',
+          borderRadius: '12px',
+          mb: 1,
+          px: 2,
+          '&:hover': { backgroundColor: '#4a4a4a' },
+          textTransform: 'none',
+          justifyContent: 'flex-start',
+        }}
+      >
+        Oil Spill
+      </Button>
 
-        <ListItemButton
-          sx={{
-            borderRadius: '8px',
-            mb: 1,
-            px: 2,
-            '&:hover': { backgroundColor: '#3a3a3a' },
-          }}
-        >
-          <ListItemIcon sx={{ color: '#fff', minWidth: 36 }}>
-            <SatelliteAltIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText
-            primary="Wake Detection"
-            sx={{
-              '& .MuiTypography-root': {
-                fontSize: '0.9rem',
-                fontWeight: 400,
-              },
-            }}
-          />
-        </ListItemButton>
+      <Button
+        variant="contained"
+        startIcon={<SatelliteAltIcon />}
+        sx={{
+          backgroundColor: '#3a3a3a',
+          color: '#fff',
+          borderRadius: '8px',
+          mb: 1,
+          px: 2,
+          '&:hover': { backgroundColor: '#4a4a4a' },
+          textTransform: 'none',
+          justifyContent: 'flex-start',
+        }}
+      >
+        Wake Detection
+      </Button>
 
-        <ListItemButton
-          sx={{
-            borderRadius: '12px',
-            mb: 1,
-            px: 2,
-            '&:hover': { backgroundColor: '#3a3a3a' },
-          }}
-        >
-          <ListItemIcon sx={{ color: '#fff', minWidth: 36 }}>
-            <RoomIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText
-            primary="AIS Data"
-            sx={{
-              '& .MuiTypography-root': {
-                fontSize: '0.9rem',
-                fontWeight: 400,
-              },
-            }}
-          />
-        </ListItemButton>
-      </List>
+      <Button
+        variant="contained"
+        startIcon={<RoomIcon />}
+        sx={{
+          backgroundColor: '#3a3a3a',
+          color: '#fff',
+          borderRadius: '12px',
+          mb: 1,
+          px: 2,
+          '&:hover': { backgroundColor: '#4a4a4a' },
+          textTransform: 'none',
+          justifyContent: 'flex-start',
+        }}
+      >
+        AIS Data
+      </Button>
     </Box>
   );
 };
