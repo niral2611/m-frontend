@@ -6,26 +6,38 @@ import Sidebar from './components/sidebar';
 import dynamic from 'next/dynamic';
 import { Box } from '@mui/material';
 
-const Map = dynamic(() => import('./components/Map'), { ssr: false });
+const Map = dynamic(() => import('./components/map'), { ssr: false });
 
 const MatsyaHub = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   return (
-    <Box sx={{ position: 'relative', height: '100vh', width: '100vw', overflow: 'hidden' }}>
-      <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 50 }}>
-        <Header />
+    <Box sx={{ 
+      position: 'relative',
+      height: '100vh', 
+      width: '100vw', 
+      overflow: 'hidden'
+    }}>
+      <Box sx={{ 
+        position: 'absolute', 
+        top: 0, 
+        left: 0, 
+        right: 0, 
+        zIndex: 50,
+      }}>
+        <Header 
+          isOpen={isSidebarOpen}
+        />
       </Box>
 
-      <Box
-        sx={{
+      <Box sx={{
           position: 'absolute',
-          top: 60,
+          top: 0,
           left: 0,
           bottom: 0,
-          zIndex: 40,
+          zIndex: 60,
           width: 250,
-          transition: 'transform 0.3s ease-in-out',
+          transition: 'transform 1s ease-in-out',
           transform: isSidebarOpen ? 'translateX(0)' : 'translateX(-100%)',
         }}
       >
@@ -43,7 +55,7 @@ const MatsyaHub = () => {
           right: 0,
           bottom: 0,
           zIndex: 0,
-          transition: 'left 0.3s ease-in-out',
+          transition: 'left 1s ease-in-out',
           backgroundColor: 'black',
         }}
       >

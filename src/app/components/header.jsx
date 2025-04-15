@@ -1,11 +1,11 @@
 'use client'
 
-import React from "react";
+import React, { useState } from "react";
 import { useSession } from "next-auth/react";
 import { Box, Avatar, Typography, IconButton } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 
-const Header = () => {
+const Header = ({ isOpen }) => {
     const { data: session } = useSession();
 
     const userName = session?.user?.name;
@@ -13,15 +13,18 @@ const Header = () => {
 
     return (
         <Box sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            padding: '5px 20px',
-            backgroundColor: '#f5f5f5',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                padding: '5px 20px',
+                backgroundColor: '#f5f5f5',
+                transition: 'transform 2s ease-in-out',
         }}>
             <Box sx={{
                 display: 'flex',
                 alignItems: 'center',
+                transform: isOpen ? 'translateX(250px)' : 'translateX(0)',
+                transition: 'transform 1s ease-in-out',
             }}>
                 <img
                     alt="PierSight Logo"
@@ -29,7 +32,8 @@ const Header = () => {
                     style={{ 
                         width: '40px', 
                         height: '40px', 
-                        borderRadius: '100%' 
+                        borderRadius: '100%',
+                        marginLeft: '10px' 
                     }}
                 />
                 <Box ml={2}>

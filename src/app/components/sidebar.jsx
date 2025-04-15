@@ -6,13 +6,14 @@ import {
   Button,
   Divider,
   IconButton,
+  Link
 } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import SatelliteAltIcon from '@mui/icons-material/SatelliteAlt';
 import RoomIcon from '@mui/icons-material/Room';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeftRounded';
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const router = useRouter();
@@ -26,7 +27,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       sx={{
         width: 260,
         height: '100vh',
-        backgroundColor: '#2B2B2B',
+        backgroundColor: '#2C2C2C',
         color: '#fff',
         display: 'flex',
         flexDirection: 'column',
@@ -48,9 +49,14 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           onClick={toggleSidebar}
           sx={{
             position: 'absolute',
-            right: -30,
-            top: 0,
-            backgroundColor: '#2B2B2B',
+            right: -33,
+            top: isOpen ? 0 : '10px',
+            transition: 'transform 1s ease-in-out',
+            transform: isOpen ? 'translateY(0)' : 'translateY(1050%)',
+            width: 40,
+            length: 25,
+            padding: 0,
+            backgroundColor: '#2C2C2C',
             border: '2px solid #fff',
             borderRadius: '50%',
             color: '#fff',
@@ -59,23 +65,25 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             },
           }}
         >
-          <ChevronLeftIcon fontSize="small" />
+          <ChevronLeftIcon fontSize="large" />
         </IconButton>
       </Box>
-
-      <Typography
-        variant="h5"
-        fontWeight="600"
-        sx={{
-          fontFamily: 'Playfair Display, serif',
-          mb: 4,
-          letterSpacing: '1px',
-          ml: 1,
-          fontSize: '2rem'
-        }}
-      >
-        MATSYA
-      </Typography>
+      
+      <Link href="http://localhost:3000/" underline="none" color="#fff" >
+        <Typography
+          variant="h5"
+          fontWeight="600"
+          sx={{
+            fontFamily: 'Playfair Display, serif',
+            mb: 4,
+            letterSpacing: '1px',
+            ml: 1,
+            fontSize: '2rem'
+          }}
+        >
+          MATSYA
+        </Typography>
+      </Link>
 
       <Typography
         variant="caption"

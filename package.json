@@ -15,6 +15,8 @@
     "@mui/icons-material": "^7.0.1",
     "@mui/material": "^7.0.1",
     "axios": "^1.8.4",
+    "georaster": "^1.6.0",
+    "georaster-layer-for-leaflet": "^3.10.0",
     "leaflet": "^1.9.4",
     "leaflet-providers": "^2.0.0",
     "next": "15.2.4",
