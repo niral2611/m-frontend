@@ -8,7 +8,7 @@ import { Box } from '@mui/material';
 
 const Map = dynamic(() => import('./components/map'), { ssr: false });
 
-const MatsyaHub = () => {
+const Matsya = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   return (
@@ -51,7 +51,7 @@ const MatsyaHub = () => {
         sx={{
           position: 'absolute',
           top: 60,
-          left: isSidebarOpen ? 250 : 0,
+          left: isSidebarOpen ? 240 : 0,
           right: 0,
           bottom: 0,
           zIndex: 0,
@@ -59,10 +59,12 @@ const MatsyaHub = () => {
           backgroundColor: 'black',
         }}
       >
-        <Map />
-      </Box>
+        <Map 
+          isOpen={isSidebarOpen}
+        />
+      </Box>      
     </Box>
   );
 };
 
-export default MatsyaHub;
+export default Matsya;

@@ -28,6 +28,7 @@ body {
   font-size: 18px;
   background: var(--background);
   color: var(--foreground);
+  overflow: hidden;
 }
 
 #__next {
@@ -35,14 +36,15 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+  overflow: hidden;
 }
 
 .leaflet-control-attribution,
 .leaflet-control-zoom-in,
 .leaflet-control-zoom-out,
 .leaflet-layer {
-  filter: invert(90%) sepia(15%) saturate(0%) hue-rotate(115deg) brightness(150%) contrast(110%);
+  filter: invert(90%) sepia(15%) saturate(50%) hue-rotate(180deg) brightness(150%) contrast(110%);
 }
 .leaflet-control-zoom {
-  left: 10px !important; 
+  left: 20px !important; 
 }

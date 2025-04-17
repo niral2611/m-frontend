@@ -1,13 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Box,
-  Typography,
-  Button,
-  Divider,
-  IconButton,
-  Link
-} from '@mui/material';
+import { Box, Typography, Button, Divider, IconButton, Link } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import BarChartIcon from '@mui/icons-material/BarChart';
@@ -18,9 +11,29 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeftRounded';
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const router = useRouter();
 
-  const handleDarkShipsClick = () => {
-    router.push('/events/dark-ships');
-  };
+  const features = [
+    {
+      label: 'Ship Detection',
+      icon: <DashboardIcon />,
+      onClick: () => { router.push('/events/ship-detection') }
+    },
+    {
+      label: 'Oil Spill Detection',
+      icon: <BarChartIcon />,
+      onClick: () => { router.push('/events/oil-spill-detection') }
+    },
+    {
+      label: 'Ship Route',
+      icon: <SatelliteAltIcon />,
+      onClick: () => { router.push('/events/ship-route') }
+    },
+    {
+      label: 'Ship Wake',
+      icon: <RoomIcon />,
+      onClick: () => { router.push('/events/ship-wake') }
+    }
+
+  ]
 
   return (
     <Box
@@ -48,24 +61,28 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           size="medium"
           onClick={toggleSidebar}
           sx={{
+            display: 'flex',
+            justifyItems: 'center',
+            alignItems: 'center',
             position: 'absolute',
             right: -33,
-            top: isOpen ? 0 : '10px',
+            top: 0,
             transition: 'transform 1s ease-in-out',
-            transform: isOpen ? 'translateY(0)' : 'translateY(1050%)',
-            width: 40,
-            length: 25,
+            transform: isOpen ? 'translateY(0)' : 'translateY(15em)',
+            width: 29,
             padding: 0,
-            backgroundColor: '#2C2C2C',
+            backgroundColor: '#209cfc',
             border: '2px solid #fff',
             borderRadius: '50%',
             color: '#fff',
             '&:hover': {
-              backgroundColor: '#3a3a3a',
+              border: '2px solid #209cfc',
+              backgroundColor: '#fff',
+              color: '#209cfc',
             },
           }}
         >
-          <ChevronLeftIcon fontSize="large" />
+          <ChevronLeftIcon fontSize="medium" />
         </IconButton>
       </Box>
       
@@ -74,11 +91,11 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           variant="h5"
           fontWeight="600"
           sx={{
-            fontFamily: 'Playfair Display, serif',
-            mb: 4,
-            letterSpacing: '1px',
-            ml: 1,
-            fontSize: '2rem'
+            fontFamily:'Playfair Display, serif',
+            mb:4,
+            letterSpacing:'1px',
+            ml:1,
+            fontSize:'32px'
           }}
         >
           MATSYA
@@ -87,80 +104,40 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 
       <Typography
         variant="caption"
-        sx={{ color: '#aaa', mb: 1, ml: 1 }}
+        sx={{ 
+          color:'#aaa', 
+          mb:2, 
+          ml:2,
+          fontSize:'16px' 
+        }}
       >
         MENU
       </Typography>
-      <Divider sx={{ backgroundColor: '#555', mb: 2 }} />
-
-      <Button
-        variant="contained"
-        startIcon={<DashboardIcon />}
-        onClick={handleDarkShipsClick} 
-        sx={{
-          backgroundColor: '#3a3a3a',
-          color: '#fff',
-          borderRadius: '12px',
-          mb: 1,
-          px: 2,
-          '&:hover': { backgroundColor: '#4a4a4a' },
-          textTransform: 'none',
-          justifyContent: 'flex-start',
-        }}
-      >
-        Dark Ships
-      </Button>
-
-      <Button
-        variant="contained"
-        startIcon={<BarChartIcon />}
-        sx={{
-          backgroundColor: '#3a3a3a',
-          color: '#fff',
-          borderRadius: '12px',
-          mb: 1,
-          px: 2,
-          '&:hover': { backgroundColor: '#4a4a4a' },
-          textTransform: 'none',
-          justifyContent: 'flex-start',
-        }}
-      >
-        Oil Spill
-      </Button>
-
-      <Button
-        variant="contained"
-        startIcon={<SatelliteAltIcon />}
-        sx={{
-          backgroundColor: '#3a3a3a',
-          color: '#fff',
-          borderRadius: '8px',
-          mb: 1,
-          px: 2,
-          '&:hover': { backgroundColor: '#4a4a4a' },
-          textTransform: 'none',
-          justifyContent: 'flex-start',
-        }}
-      >
-        Wake Detection
-      </Button>
-
-      <Button
-        variant="contained"
-        startIcon={<RoomIcon />}
-        sx={{
-          backgroundColor: '#3a3a3a',
-          color: '#fff',
-          borderRadius: '12px',
-          mb: 1,
-          px: 2,
-          '&:hover': { backgroundColor: '#4a4a4a' },
-          textTransform: 'none',
-          justifyContent: 'flex-start',
-        }}
-      >
-        AIS Data
-      </Button>
+      <Divider sx={{ backgroundColor:'#555', mb:2 }} />
+      
+      {
+        features.map((feature, index) => (
+          <Button
+            key={index}
+            variant="contained"
+            startIcon={feature.icon}
+            onClick={feature.onClick}
+            sx={{
+              backgroundColor: '#3a3a3a',
+              color: '#fff',
+              borderRadius: '12px',
+              mb: 1,
+              px: 2,
+              '&:hover': { backgroundColor: '#4a4a4a' },
+              textTransform: 'none',
+              justifyContent: 'flex-start',
+            }}
+          >
+            {feature.label}
+          </Button>
+        ))
+      }
+      
     </Box>
   );
 };

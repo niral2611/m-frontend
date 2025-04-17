@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { signIn } from 'next-auth/react';
-import { Button, CircularProgress, Backdrop  } from '@mui/material';
+import { Button, CircularProgress, Backdrop } from '@mui/material';
 
 const GoogleLoginButton = () => {
     const [loading, setLoading] = useState(false);

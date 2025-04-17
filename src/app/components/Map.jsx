@@ -2,96 +2,88 @@
 
 import { MapContainer, TileLayer, GeoJSON, useMap } from 'react-leaflet';
 import { useEffect, useState } from 'react';
+import { Box } from '@mui/material';
 import axios from 'axios';
 import 'leaflet/dist/leaflet.css';
 import PropTypes from 'prop-types';
 import L from 'leaflet';
 import GeoRasterLayer from 'georaster-layer-for-leaflet';
 import georaster from 'georaster';
+import CanvasToolToggle from './canvasToolToggle';
 
-const position = [36.778259, -119.417931];
+const position = [0, 0];
 
-const Map = ({ url, file }) => {
+const Map = ({ raster, geojson }) => {
   const [geoJSONData, setGeoJSONData] = useState(null);
   const [tiffLayer, setTiffLayer] = useState(null);
   const [rasterBounds, setRasterBounds] = useState(null);
 
   useEffect(() => {
-    const loadGeoJSON = async (file) => {
+    const loadGeoJSON = async (url) => {
       try {
-        const response = await fetch(file);
-        const data = await response.json();
-        setGeoJSONData(data);
+        const response = await axios.get(url);
+        setGeoJSONData(response.data);
       } catch (error) {
-        console.error('Error loading GeoJSON from file:', error);
+        console.error('Error loading GeoJSON from URL:', error);
       }
     };
 
-    const loadTIFF = async (file) => {
+    const loadTIFF = async (url) => {
       try {
-        const response = await fetch(file);
+        const response = await fetch(url);
         const arrayBuffer = await response.arrayBuffer();
         const raster = await georaster(arrayBuffer);
 
         const layer = new GeoRasterLayer({
           georaster: raster,
-          opacity: 0.5,
-          resolution: 256,
+          resolution: 384,
+          pixelValuesToColorFn: (value) => {     
+            if (value >= 50 && value < 100) return '#440154';  // deep purple
+            if (value >= 100 && value < 125) return '#3b528b'; // dark blue
+            if (value >= 125 && value < 150) return '#21918c'; // teal
+            if (value >= 150 && value < 175) return '#5ec962'; // green
+            if (value >= 175 && value < 200) return '#aadc32'; // lime green
+            if (value >= 200 && value < 225) return '#fde725'; // yellow
+            if (value >= 225) return '#ffffe5';               // very light yellow (optional extra band)
+          },
+    
         });
 
         setTiffLayer(layer);
         setRasterBounds(layer.getBounds());
+
+        if(geojson){
+          loadGeoJSON(geojson);
+        }
       } catch (error) {
-        console.error('Error loading TIFF file:', error);
+        console.error('Error loading TIFF from URL:', error);
       }
     };
 
-    if (url) {
-      const fetchGeoJSONData = async () => {
-        try {
-          const response = await axios.get(url);
-          setGeoJSONData(response.data);
-        } catch (error) {
-          console.error('Error fetching GeoJSON data:', error);
-        }
-      };
-      fetchGeoJSONData();
-    } else if (file) {
-      if (file.endsWith('.geojson')) {
-        loadGeoJSON(file);
-      } else if (file.endsWith('.tif')) {
-        loadTIFF(file);
-      } else {
-        console.log('Unsupported file type');
-      }
-    } else {
-      setGeoJSONData(null);
-      console.log('No URL or file provided, GeoJSON not loaded');
+    if (raster) {
+      loadTIFF(raster);
+      
     }
-  }, [url, file]);
+  }, [raster, geojson]);
 
   const geoJSONStyle = (feature) => {
     const geometryType = feature.geometry.type;
     if (geometryType === 'Point') {
       return {
         radius: 6,
-        color: '#fff092',
+        color: '#1a2d36',
         weight: 2,
         opacity: 1,
-        fillColor: '#fff092',
-        fillOpacity: 0.7,
       };
     } else if (geometryType === 'MultiPolygon' || geometryType === 'Polygon') {
       return {
-        fillColor: '#fff092',
-        weight: 10,
-        opacity: 0.4,
-        color: '#fff092',
-        fillOpacity: 0.1,
+        weight: 2,
+        opacity: 1,
+        color: '#1a2d36',
       };
     } else if (geometryType === 'LineString') {
       return {
-        color: '#fff092',
+        color: '#1a2d36',
         weight: 2,
         opacity: 1,
       };
@@ -105,7 +97,7 @@ const Map = ({ url, file }) => {
   return (
     <MapContainer
       center={position}
-      zoom={6}
+      zoom={3}
       minZoom={3}
       maxBounds={[
         [-85, -180],
@@ -120,6 +112,8 @@ const Map = ({ url, file }) => {
         noWrap={true}
         maxZoom={20}
       />
+      {tiffLayer && <TiffLayer layer={tiffLayer} />}
+      {rasterBounds && <RasterBoundary bounds={rasterBounds} />}
       {geoJSONData && (
         <GeoJSON
           data={geoJSONData}
@@ -127,8 +121,18 @@ const Map = ({ url, file }) => {
           pointToLayer={pointToLayer}
         />
       )}
-      {tiffLayer && <TiffLayer layer={tiffLayer} />}
-      {rasterBounds && <RasterBoundary bounds={rasterBounds} />}
+      <Box
+        sx={{
+          position: 'absolute',
+          bottom: '20px',
+          left: '50%',
+          transform: 'translateX(0)',
+          zIndex: 400,
+          display: 'flex',
+        }}
+      >
+        <CanvasToolToggle />
+      </Box>
     </MapContainer>
   );
 };
@@ -154,33 +158,22 @@ const RasterBoundary = ({ bounds }) => {
   const map = useMap();
 
   useEffect(() => {
-    const rectangle = L.rectangle(bounds, {
-      color: '#fff092',
-      weight: 2,
-      fillOpacity: 0,
-    }).addTo(map);
-
     map.fitBounds(bounds);
-
-    return () => {
-      map.removeLayer(rectangle);
-    };
   }, [bounds, map]);
 
   return null;
 };
 
 TiffLayer.propTypes = {
-  layer: PropTypes.object,
+  layer:PropTypes.object,
 };
 
 RasterBoundary.propTypes = {
-  bounds: PropTypes.object,
+  bounds:PropTypes.object,
 };
 
 Map.propTypes = {
-  url: PropTypes.string,
-  file: PropTypes.string,
+  url:PropTypes.string.isRequired,
 };
 
 export default Map;

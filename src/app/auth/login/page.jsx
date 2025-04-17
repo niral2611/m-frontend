@@ -13,8 +13,6 @@ const Login = () => {
     const error = searchParams.get('error');
     if (error) {
       setOpen(true);
-
-      // Clear error from the URL (optional, prevents repeat toasts)
       const url = new URL(window.location.href);
       url.searchParams.delete('error');
       window.history.replaceState({}, '', url.toString());

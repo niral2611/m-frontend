@@ -3,9 +3,9 @@ import GoogleProvider from "next-auth/providers/google";
 
 
 const emails = [
-    "ajmeraniral@gmail.com",
-    "najmera64725@gmail.com",
-    "niral.aict21@sot.pdpu.ac.in"
+  "ajmeraniral@gmail.com",
+  "najmera64725@gmail.com",
+  "niral.aict21@sot.pdpu.ac.in"
 ]
 
 
@@ -19,6 +19,11 @@ const handler = NextAuth({
   secret: process.env.AUTH_SECRET,
   session: {
     strategy: "jwt",
+    maxAge: 1*24*3600,
+    cookie: {
+      httpOnly: true,
+      sameSite: 'Strict',
+    },
   },
   jwt: {
     signingKey: process.env.JWT_SIGNING_PRIVATE_KEY,

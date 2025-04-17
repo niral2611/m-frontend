@@ -51,7 +51,7 @@ const Matsya = () => {
         sx={{
           position: 'absolute',
           top: 60,
-          left: isSidebarOpen ? 250 : 0,
+          left: isSidebarOpen ? 240 : 0,
           right: 0,
           bottom: 0,
           zIndex: 0,
@@ -59,7 +59,7 @@ const Matsya = () => {
           backgroundColor: 'black',
         }}
       >
-        <Map file="/assets/syn_cog.tif" />
+        <Map raster='https://s3.ap-south-1.amazonaws.com/matsya-v0.1/rasters/syn_cog3.tif' geojson="https://s3.ap-south-1.amazonaws.com/matsya-v0.1/vectors/oil_spill.geojson" />
       </Box>
     </Box>
   );
