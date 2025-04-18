@@ -45,6 +45,3 @@ body {
 .leaflet-layer {
   filter: invert(90%) sepia(15%) saturate(50%) hue-rotate(180deg) brightness(150%) contrast(110%);
 }
-.leaflet-control-zoom {
-  left: 20px !important; 
-}

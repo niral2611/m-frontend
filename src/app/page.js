@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import Header from './components/header';
-import Sidebar from './components/sidebar';
+import Header from '@/app/components/header';
+import Sidebar from '@/app/components/sidebar';
 import dynamic from 'next/dynamic';
 import { Box } from '@mui/material';
 
-const Map = dynamic(() => import('./components/map'), { ssr: false });
+const Map = dynamic(() => import('@/app/components/map'), { ssr: false });
 
 const Matsya = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -51,7 +51,7 @@ const Matsya = () => {
         sx={{
           position: 'absolute',
           top: 60,
-          left: isSidebarOpen ? 240 : 0,
+          left: 0,
           right: 0,
           bottom: 0,
           zIndex: 0,
@@ -59,9 +59,7 @@ const Matsya = () => {
           backgroundColor: 'black',
         }}
       >
-        <Map 
-          isOpen={isSidebarOpen}
-        />
+        <Map />
       </Box>      
     </Box>
   );

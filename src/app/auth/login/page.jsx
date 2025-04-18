@@ -1,26 +1,12 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { Box, Typography, Snackbar, Alert, Slide } from '@mui/material';
-import { useSearchParams } from 'next/navigation';
-import GoogleLoginButton from '../../components/google';
+import React, { Suspense } from 'react';
+import { Box, Typography } from '@mui/material';
+import GoogleLoginButton from '@/app/components/google';
+import SearchParam from './searchParam';
 
 const Login = () => {
-  const [open, setOpen] = useState(false);
-  const searchParams = useSearchParams();
-
-  useEffect(() => {
-    const error = searchParams.get('error');
-    if (error) {
-      setOpen(true);
-      const url = new URL(window.location.href);
-      url.searchParams.delete('error');
-      window.history.replaceState({}, '', url.toString());
-    }
-  }, [searchParams]);
-
-  const handleClose = () => setOpen(false);
-
+  
   return (
     <Box sx={{ display: 'flex', width: '100vw', height: '100vh', overflow: 'hidden', userSelect: 'none' }} >
       <Box sx={{ width: '70%', position: 'relative'}}>
@@ -133,17 +119,9 @@ const Login = () => {
         <GoogleLoginButton />
       </Box>
 
-      <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={open}
-        autoHideDuration={5000}
-        onClose={handleClose}
-        TransitionComponent={(props) => <Slide {...props} direction="left" />}
-      >
-        <Alert severity="error" variant="filled" onClose={handleClose}>
-          Login failed. Unauthorized access or restricted email.
-        </Alert>
-      </Snackbar>
+      <Suspense fallback={null} >
+        <SearchParam />
+      </Suspense>
     </Box>
   )
 }

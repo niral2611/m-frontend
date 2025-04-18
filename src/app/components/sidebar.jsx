@@ -40,7 +40,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       sx={{
         width: 260,
         height: '100vh',
-        backgroundColor: '#2C2C2C',
+        backgroundColor: '#1a1a1a',
         color: '#fff',
         display: 'flex',
         flexDirection: 'column',
@@ -71,14 +71,14 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             transform: isOpen ? 'translateY(0)' : 'translateY(15em)',
             width: 29,
             padding: 0,
-            backgroundColor: '#209cfc',
+            backgroundColor: '#26d1b4',
             border: '2px solid #fff',
             borderRadius: '50%',
             color: '#fff',
             '&:hover': {
-              border: '2px solid #209cfc',
+              border: '2px solid #26d1b4',
               backgroundColor: '#fff',
-              color: '#209cfc',
+              color: '#26d1b4',
             },
           }}
         >

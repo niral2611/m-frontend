@@ -1,13 +1,14 @@
-'use client';
+"use client";
 
-import { MapContainer, TileLayer, GeoJSON, useMap } from 'react-leaflet';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import 'leaflet/dist/leaflet.css';
-import PropTypes from 'prop-types';
-import L from 'leaflet';
-import GeoRasterLayer from 'georaster-layer-for-leaflet';
-import georaster from 'georaster';
+import "leaflet/dist/leaflet.css";
+import { MapContainer, TileLayer, GeoJSON, useMap } from "react-leaflet";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import PropTypes from "prop-types";
+import L from "leaflet";
+import GeoRasterLayer from "georaster-layer-for-leaflet";
+import georaster from "georaster";
+import ControlPanel from "./controlPanel";
 
 const position = [0, 0];
 
@@ -22,7 +23,7 @@ const Map = ({ raster, geojson }) => {
         const response = await axios.get(url);
         setGeoJSONData(response.data);
       } catch (error) {
-        console.error('Error loading GeoJSON from URL:', error);
+        console.error("Error loading GeoJSON from URL:", error);
       }
     };
 
@@ -35,53 +36,51 @@ const Map = ({ raster, geojson }) => {
         const layer = new GeoRasterLayer({
           georaster: raster,
           resolution: 384,
-          pixelValuesToColorFn: (value) => {     
-            if (value >= 50 && value < 100) return '#440154';  // deep purple
-            if (value >= 100 && value < 125) return '#3b528b'; // dark blue
-            if (value >= 125 && value < 150) return '#21918c'; // teal
-            if (value >= 150 && value < 175) return '#5ec962'; // green
-            if (value >= 175 && value < 200) return '#aadc32'; // lime green
-            if (value >= 200 && value < 225) return '#fde725'; // yellow
-            if (value >= 225) return '#ffffe5';               // very light yellow (optional extra band)
+          pixelValuesToColorFn: (value) => {
+            if (value >= 50 && value < 100) return "#440154"; // deep purple
+            if (value >= 100 && value < 125) return "#3b528b"; // dark blue
+            if (value >= 125 && value < 150) return "#21918c"; // teal
+            if (value >= 150 && value < 175) return "#5ec962"; // green
+            if (value >= 175 && value < 200) return "#aadc32"; // lime green
+            if (value >= 200 && value < 225) return "#fde725"; // yellow
+            if (value >= 225) return "#ffffe5"; // very light yellow (optional extra band)
           },
-    
         });
 
         setTiffLayer(layer);
         setRasterBounds(layer.getBounds());
 
-        if(geojson){
+        if (geojson) {
           loadGeoJSON(geojson);
         }
       } catch (error) {
-        console.error('Error loading TIFF from URL:', error);
+        console.error("Error loading TIFF from URL:", error);
       }
     };
 
     if (raster) {
       loadTIFF(raster);
-      
     }
   }, [raster, geojson]);
 
   const geoJSONStyle = (feature) => {
     const geometryType = feature.geometry.type;
-    if (geometryType === 'Point') {
+    if (geometryType === "Point") {
       return {
         radius: 6,
-        color: '#1a2d36',
+        color: "#1a2d36",
         weight: 2,
         opacity: 1,
       };
-    } else if (geometryType === 'MultiPolygon' || geometryType === 'Polygon') {
+    } else if (geometryType === "MultiPolygon" || geometryType === "Polygon") {
       return {
         weight: 2,
         opacity: 1,
-        color: '#1a2d36',
+        color: "#1a2d36",
       };
-    } else if (geometryType === 'LineString') {
+    } else if (geometryType === "LineString") {
       return {
-        color: '#1a2d36',
+        color: "#1a2d36",
         weight: 2,
         opacity: 1,
       };
@@ -102,7 +101,8 @@ const Map = ({ raster, geojson }) => {
         [85, 180],
       ]}
       maxBoundsViscosity={1.0}
-      style={{ height: '100%', width: '100%', backgroundColor: 'black' }}
+      zoomControl={false}
+      style={{ height: "100%", width: "100%", backgroundColor: "black" }}
     >
       <TileLayer
         url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -119,18 +119,7 @@ const Map = ({ raster, geojson }) => {
           pointToLayer={pointToLayer}
         />
       )}
-      {/* <Box
-        sx={{
-          position: 'absolute',
-          bottom: '20px',
-          left: '50%',
-          transform: 'translateX(0)',
-          zIndex: 400,
-          display: 'flex',
-        }}
-      >
-        <CanvasToolToggle />
-      </Box> */}
+      <ControlPanel bounds={rasterBounds} />
     </MapContainer>
   );
 };
@@ -156,22 +145,25 @@ const RasterBoundary = ({ bounds }) => {
   const map = useMap();
 
   useEffect(() => {
-    map.fitBounds(bounds);
+    map.flyToBounds(bounds, {
+      duration: 4,
+      easeLinearity: 0.5,
+    });
   }, [bounds, map]);
 
   return null;
 };
 
 TiffLayer.propTypes = {
-  layer:PropTypes.object,
+  layer: PropTypes.object,
 };
 
 RasterBoundary.propTypes = {
-  bounds:PropTypes.object,
+  bounds: PropTypes.object,
 };
 
 Map.propTypes = {
-  url:PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
 };
 
 export default Map;

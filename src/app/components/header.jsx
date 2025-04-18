@@ -1,15 +1,17 @@
 'use client';
 
 import React, { useState, useEffect } from "react";
-import { useSession } from 'next-auth/react';
-import { Box, Avatar, Typography, IconButton } from '@mui/material';
+import { useSession, signOut } from 'next-auth/react';
+import { Box, Avatar, Typography, IconButton, Menu, MenuItem, ListItemIcon } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDownRounded';
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 
 const Header = ({ isOpen }) => {
 
     const { data: session } = useSession();
 
     const [isRateLimited, setIsRateLimited] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
 
     const userName = session?.user?.name;
     const userImage = session?.user?.image;
@@ -38,6 +40,7 @@ const Header = ({ isOpen }) => {
     
     useEffect(() => {
         const checkAvatar = async () => {
+            if(!userImage) return;
             try{
                 const response = await fetch(userImage);
                 if (response.status !== 200) {
@@ -50,6 +53,18 @@ const Header = ({ isOpen }) => {
         checkAvatar();
     }, [userImage]);
 
+    const handleMenuOpen = (e) => {
+        setAnchorEl(e.currentTarget);
+    }
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    }
+
+    const handleLogout = () => {
+        signOut();
+    }
+
     return (
 
         <Box sx={{
@@ -57,7 +72,8 @@ const Header = ({ isOpen }) => {
             justifyContent: 'space-between',
             alignItems: 'center',
             padding: '5px 20px',
-            backgroundColor: '#f5f5f5',
+            color: '#1a1a1a',
+            backgroundColor: '#f1f1f1',
             transition: 'transform 2s ease-in-out',
         }}>
             <Box sx={{
@@ -93,7 +109,10 @@ const Header = ({ isOpen }) => {
                 </Box>
             </Box>
 
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ 
+                display: 'flex', 
+                alignItems: 'center',
+            }}>
                 {
                     userName && isRateLimited ?
                         <Avatar 
@@ -101,8 +120,9 @@ const Header = ({ isOpen }) => {
                             {...stringAvatar(userName)}
                             sx={{
                                 width: 40,
-                                height: 40, 
-                                bgcolor: '#209cfc',
+                                height: 40,
+                                bgcolor: '#26d1b4',
+                                border: '2px solid #10685a',
                                 fontFamily: 'Monteserrat, sans-serif',
                                 fontSize: '1rem',
                             }} 
@@ -127,15 +147,64 @@ const Header = ({ isOpen }) => {
                     </Typography>
                     <Typography 
                         variant="body2" 
-                        color="text.secondary"
+                        color="#888"
                         sx={{ fontFamily: 'Montserrat, sans-serif' }}
                     >
                         2108 credits
                     </Typography>
                 </Box>
-                <IconButton size='small'>
-                    <KeyboardArrowDownIcon />
+                <IconButton size='small' onClick={handleMenuOpen}>
+                    <KeyboardArrowDownIcon sx={{color: '#000'}}/>
                 </IconButton>
+                <Menu
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={handleMenuClose}
+                    slotProps={{
+                        paper: {
+                            sx: {
+                                marginTop: '20px',
+                                borderRadius: '7px',
+                                backgroundColor: '#3a3a3a',
+                                color: '#fff',
+                            }
+                        }
+                    }}
+                >
+                    <MenuItem 
+                        onClick={handleLogout}
+                        sx={{
+                            fontSize: {
+                                xs: '12px', 
+                                sm: '14px', 
+                                md: '16px',
+                            },
+                            borderRadius: '4px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            '&:hover': {
+                                backgroundColor: '#444',
+                            },
+                        }}   
+                    >
+                        <ListItemIcon>
+                            <LogoutRoundedIcon 
+                                fontSize="small" 
+                                sx={{
+                                    color: '#ccc', 
+                                    marginLeft: '0px',
+                                    fontSize: {
+                                        xs: '16px',
+                                        sm: '18px',
+                                        md: '20px',
+                                    }
+                                }}
+                            />
+                        </ListItemIcon>
+                        Logout
+                    </MenuItem>
+                </Menu>
             </Box>            
         </Box>
     );
