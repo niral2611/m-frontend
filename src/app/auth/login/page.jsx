@@ -2,7 +2,7 @@
 
 import React, { Suspense } from 'react';
 import { Box, Typography } from '@mui/material';
-import GoogleLoginButton from '@/app/components/google';
+import GoogleLoginButton from '@/components/google';
 import SearchParam from './searchParam';
 
 const Login = () => {

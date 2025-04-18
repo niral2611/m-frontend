@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import Header from '@/components/header';
-import Sidebar from '@/components/sidebar';
+import Header from '../../../components/header';
+import Sidebar from '../../../components/sidebar';
 import dynamic from 'next/dynamic';
 import { Box } from '@mui/material';
 
-const Map = dynamic(() => import('@/components/map'), { ssr: false });
+const Map = dynamic(() => import('../../../components/map'), { ssr: false });
 
 const Matsya = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -51,7 +51,7 @@ const Matsya = () => {
         sx={{
           position: 'absolute',
           top: 60,
-          left: 0,
+          left: isSidebarOpen ? 250 : 0,
           right: 0,
           bottom: 0,
           zIndex: 0,
@@ -59,8 +59,8 @@ const Matsya = () => {
           backgroundColor: 'black',
         }}
       >
-        <Map />
-      </Box>      
+        <Map file="/assets/syn_cog.tif" />
+      </Box>
     </Box>
   );
 };
