@@ -2,14 +2,12 @@
 
 import { MapContainer, TileLayer, GeoJSON, useMap } from 'react-leaflet';
 import { useEffect, useState } from 'react';
-import { Box } from '@mui/material';
 import axios from 'axios';
 import 'leaflet/dist/leaflet.css';
 import PropTypes from 'prop-types';
 import L from 'leaflet';
 import GeoRasterLayer from 'georaster-layer-for-leaflet';
 import georaster from 'georaster';
-import CanvasToolToggle from './canvasToolToggle';
 
 const position = [0, 0];
 
@@ -121,7 +119,7 @@ const Map = ({ raster, geojson }) => {
           pointToLayer={pointToLayer}
         />
       )}
-      <Box
+      {/* <Box
         sx={{
           position: 'absolute',
           bottom: '20px',
@@ -132,7 +130,7 @@ const Map = ({ raster, geojson }) => {
         }}
       >
         <CanvasToolToggle />
-      </Box>
+      </Box> */}
     </MapContainer>
   );
 };
